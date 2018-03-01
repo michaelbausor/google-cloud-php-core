@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2017 Google Inc. All Rights Reserved.
+ * Copyright 2018 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,27 +18,26 @@
 namespace Google\Cloud\Core\Batch;
 
 /**
- * A utility trait related to BatchDaemon functionality.
+ * An interface for serializing closures.
  *
  * @experimental The experimental flag means that while we believe this method
  *      or class is ready for use, it may change before release in backwards-
  *      incompatible ways. Please use with caution, and test thoroughly when
  *      upgrading.
  */
-trait BatchDaemonTrait
+interface ClosureSerializerInterface
 {
     /**
-     * Returns whether or not the BatchDaemon is running.
+     * Recursively serializes closures.
      *
-     * @return bool
+     * @param mixed $data
      */
-    private function isDaemonRunning()
-    {
-        $isDaemonRunning = filter_var(
-            getenv('IS_BATCH_DAEMON_RUNNING'),
-            FILTER_VALIDATE_BOOLEAN
-        );
+    public function wrapClosures(&$data);
 
-        return $isDaemonRunning !== false;
-    }
+    /**
+     * Recursively unserializes closures.
+     *
+     * @param mixed $data
+     */
+    public function unwrapClosures(&$data);
 }
